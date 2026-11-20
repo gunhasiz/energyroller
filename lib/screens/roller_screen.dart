@@ -103,7 +103,7 @@ class _RollerScreenState extends State<RollerScreen> {
 
     if (added == true && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Zapisano napój w bazie SQLite')),
+        const SnackBar(content: Text('Zapisano napój w bazie.')),
       );
     }
   }
@@ -127,7 +127,7 @@ class _RollerScreenState extends State<RollerScreen> {
       if (e.statusCode == 401 && mounted) {
         setState(() {});
       }
-      
+
       rethrow;
     }
   }
