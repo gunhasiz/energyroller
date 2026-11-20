@@ -21,7 +21,7 @@ class _EnergyRollerAppState extends State<EnergyRollerApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EnergyRoller',
+      title: 'Energy Drink Roulette',
       debugShowCheckedModeBanner: false,
       themeMode: _themeMode,
       theme: ThemeData(
