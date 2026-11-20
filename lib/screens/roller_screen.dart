@@ -139,7 +139,7 @@ class _RollerScreenState extends State<RollerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Energy Drink Roulette'),
+        title: const Text(''),
         actions: [
           Chip(
             avatar: const Icon(Icons.storage, size: 18),
