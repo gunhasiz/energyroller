@@ -1,5 +1,7 @@
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../config/app_version.dart';
 import '../models/energy_drink.dart';
 import '../services/api_service.dart';
 import '../widgets/add_drink_dialog.dart';
@@ -102,9 +104,9 @@ class _RollerScreenState extends State<RollerScreen> {
     );
 
     if (added == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Zapisano napój w bazie.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Zapisano napój w bazie.')));
     }
   }
 
@@ -177,14 +179,24 @@ class _RollerScreenState extends State<RollerScreen> {
           const SizedBox(width: 12),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 960),
-            child: _buildRollerSection(context),
+      body: Stack(
+        children: [
+          Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 960),
+                child: _buildRollerSection(context),
+              ),
+            ),
           ),
-        ),
+          if (isAuthenticated)
+            Positioned(
+              left: 16,
+              bottom: 16,
+              child: SafeArea(child: _buildVersionBadge(context)),
+            ),
+        ],
       ),
     );
   }
@@ -291,6 +303,29 @@ class _RollerScreenState extends State<RollerScreen> {
           label: Text(_hasRolled ? 'Losuj ponownie' : 'Losuj 3 energetyki'),
         ),
       ],
+    );
+  }
+
+  Widget _buildVersionBadge(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.8),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: theme.colorScheme.outlineVariant,
+        ),
+      ),
+      child: Text(
+        'v${AppVersion.full}',
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+          fontFamily: 'monospace',
+          fontSize: 13
+        ),
+      ),
     );
   }
 }
