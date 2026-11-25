@@ -1,21 +1,40 @@
 import 'package:material_ui/material_ui.dart';
+
+import 'services/theme_service.dart';
 import 'screens/roller_screen.dart';
 
 class EnergyRollerApp extends StatefulWidget {
-  const EnergyRollerApp({super.key});
+  final ThemeService themeService;
+  final ThemeMode initialThemeMode;
+
+  const EnergyRollerApp({
+    super.key,
+    required this.themeService,
+    this.initialThemeMode = ThemeMode.light,
+  });
 
   @override
   State<EnergyRollerApp> createState() => _EnergyRollerAppState();
 }
 
 class _EnergyRollerAppState extends State<EnergyRollerApp> {
-  ThemeMode _themeMode = ThemeMode.dark;
+  late ThemeMode _themeMode;
+
+  @override
+  void initState() {
+    super.initState();
+    _themeMode = widget.initialThemeMode;
+  }
 
   void _toggleTheme() {
+    final nextMode =
+        _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+
     setState(() {
-      _themeMode =
-          _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+      _themeMode = nextMode;
     });
+
+    widget.themeService.saveThemeMode(nextMode);
   }
 
   @override
